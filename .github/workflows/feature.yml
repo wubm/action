@@ -62,7 +62,7 @@ jobs:
         ENV: dev
       shell: bash
       run: |
-        TAGS=$(grep "refs/tags" <<< ${GITHUB_REF})
+        TAGS=$(grep "refs/tags" <<< ${GITHUB_REF}) || true
         echo "TAGS: ${TAGS}""
         TAGV="${TAGS#refs/tags/}"
         echo "TAGV: ${TAGV}"
@@ -78,7 +78,7 @@ jobs:
         ENV: dev
       shell: bash
       run: |
-        TAGS=$(grep "refs/tags" <<< ${GITHUB_REF})
+        TAGS=$(grep "refs/tags" <<< ${GITHUB_REF}) || true
         echo "TAGS: ${TAGS}""
         TAGV="${TAGS#refs/tags/}"
         echo "TAGV: ${TAGV}"
