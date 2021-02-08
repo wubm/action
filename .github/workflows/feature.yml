@@ -62,10 +62,9 @@ jobs:
         ENV: dev
       shell: bash
       run: |
-        TAGS=$(grep "refs/tags" ${GITHUB_REF})
-        TAGV="${TAGS#refs/tags/}"
-        export IMAGE_TAG="${TAGV:-master}"
-        echo "TAGS: ${TAGS}, TAGV: ${TAGV}, IMAGE_TAG: ${IMAGE_TAG}"
+        echo "REF: ${GITHUB_REF}"
+        export IMAGE_TAG="${GITHUB_SHA::3}"
+        echo "IMAGE_TAG: ${IMAGE_TAG}"
     # - name: Login ECR
     #   shell: bash
     #   run: |
@@ -76,10 +75,9 @@ jobs:
         ENV: dev
       shell: bash
       run: |
-        TAGS=$(grep "refs/tags" ${GITHUB_REF})
-        TAGV="${TAGS#refs/tags/}"
-        export IMAGE_TAG="${TAGV:-master}"
-        echo "TAGS: ${TAGS}, TAGV: ${TAGV}, IMAGE_TAG: ${IMAGE_TAG}"
+        echo "REF: ${GITHUB_REF}"
+        export IMAGE_TAG="${GITHUB_SHA::3}"
+        echo "IMAGE_TAG: ${IMAGE_TAG}"
     # - name: release
     #   shell: bash
     #   run: |
