@@ -1,0 +1,86 @@
+name: Features
+on:
+  push:
+    branches:
+      - feature/*
+  pull_request:
+    branches:
+      - feature/*
+env:
+  CARGO_TERM_COLOR: always
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # runs-on: ${{ matrix.platform }}
+    steps:
+    # - uses: actions/checkout@v2
+    # - uses: actions-rs/toolchain@v1
+    #   with:
+    #     toolchain: nightly-2021-01-24
+    #     override: true
+    #     components: rustfmt
+    # - name: check fmt
+    #   shell: bash
+    #   run: |
+    #     cargo fmt -- --check
+    # - name: test_status
+    #   env:
+    #     DBG: true
+    #   shell: bash
+    #   run: |
+    #     curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+    #     make test_status
+    # - name: install rustwasm
+    #   shell: bash
+    #   run: |
+    #     curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+    # - name: add go
+    #   shell: bash
+    #   run: |
+    #     mkdir $(pwd)/opt && cd $(pwd)/opt && wget https://golang.google.cn/dl/go1.15.7.linux-amd64.tar.gz && tar -xpf go1.15.7.linux-amd64.tar.gz && echo "$(pwd)/go/bin" >> $GITHUB_PATH
+    # - name: lint
+    #   shell: bash
+    #   run: |
+    #     make lint
+    # - name: test
+    #   shell: bash
+    #   run: |
+    #     make test
+    # # - name: Build
+    # #   env:
+    # #     DBG: true
+    # #   shell: bash
+    # #   run: |
+    # #     make build
+    # - name: build release
+    #   shell: bash
+    #   run: |
+    #     make build_release
+    - name: Build images
+      env:
+        ECR_URL: 358484141435.dkr.ecr.us-west-2.amazonaws.com
+        ENV: dev
+      shell: bash
+      run: |
+        TAGS=$(grep "refs/tags" ${GITHUB_REF})
+        TAGV="${TAGS#refs/tags/}"
+        export IMAGE_TAG="${TAGV:-master}"
+        echo "TAGS: ${TAGS}, TAGV: ${TAGV}, IMAGE_TAG: ${IMAGE_TAG}"
+    # - name: Login ECR
+    #   shell: bash
+    #   run: |
+    #     $(aws ecr get-login --region us-west-2 --no-include-email)
+    - name: Push images
+      env:
+        ECR_URL: 358484141435.dkr.ecr.us-west-2.amazonaws.com
+        ENV: dev
+      shell: bash
+      run: |
+        TAGS=$(grep "refs/tags" ${GITHUB_REF})
+        TAGV="${TAGS#refs/tags/}"
+        export IMAGE_TAG="${TAGV:-master}"
+        echo "TAGS: ${TAGS}, TAGV: ${TAGV}, IMAGE_TAG: ${IMAGE_TAG}"
+    # - name: release
+    #   shell: bash
+    #   run: |
+    #     echo "TBD"
