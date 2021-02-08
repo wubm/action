@@ -62,7 +62,7 @@ jobs:
         ENV: dev
       shell: bash
       run: |
-        TAGS=$(grep "refs/tags" ${GITHUB_REF})
+        TAGS=$(grep "refs/tags" <<< ${GITHUB_REF})
         TAGV="${TAGS#refs/tags/}"
         export IMAGE_TAG="${TAGV:-master}"
         echo "TAGS: ${TAGS}, TAGV: ${TAGV}, IMAGE_TAG: ${IMAGE_TAG}"
@@ -76,7 +76,7 @@ jobs:
         ENV: dev
       shell: bash
       run: |
-        TAGS=$(grep "refs/tags" ${GITHUB_REF})
+        TAGS=$(grep "refs/tags" <<< ${GITHUB_REF})
         TAGV="${TAGS#refs/tags/}"
         export IMAGE_TAG="${TAGV:-master}"
         echo "TAGS: ${TAGS}, TAGV: ${TAGV}, IMAGE_TAG: ${IMAGE_TAG}"
